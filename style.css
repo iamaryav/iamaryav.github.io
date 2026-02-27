@@ -89,10 +89,14 @@ body {
     transition: opacity 0.2s;
 }
 
-.social-links a:not(:last-child)::after {
+.social-links a::after {
     content: '|';
     margin: 0 0.75rem;
     color: var(--text-secondary);
+}
+
+.social-links a:last-child::after {
+    content: '';
 }
 
 .social-links a:hover {
