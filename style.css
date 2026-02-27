@@ -29,6 +29,7 @@ body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     line-height: 1.6;
     padding: 2rem 1rem;
+    overflow-x: hidden;
 }
 
 .container {
@@ -342,6 +343,12 @@ footer {
 
     .social-links {
         justify-content: center;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+
+    .social-links a:not(:last-child)::after {
+        margin: 0 0.25rem;
     }
 
     .hero h1 {
