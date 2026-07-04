@@ -189,7 +189,7 @@ body {
     padding: 0.15rem 0.6rem;
     border: 1px solid #555;
     border-radius: 3px;
-    color: var(--text-secondary);
+    color: #38bdf8;
     font-size: 0.7rem;
     font-weight: 500;
     line-height: 1.5;
@@ -227,17 +227,21 @@ body {
     font-size: 1.1rem;
 }
 
-.card h3 a {
+.card-content > a,
+.card.list-item > a {
     color: #ffffff !important;
     text-decoration: none !important;
 }
 
-.card h3 a:visited {
+.card-content > a:visited,
+.card.list-item > a:visited {
     color: #ffffff !important;
 }
 
-.card h3 a:hover {
+.card-content > a:hover,
+.card.list-item > a:hover {
     color: #38bdf8 !important;
+    text-decoration: underline !important;
 }
 
 .card p {
