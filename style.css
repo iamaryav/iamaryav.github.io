@@ -254,6 +254,15 @@ body {
     text-decoration: underline;
 }
 
+.section-text ul {
+    padding-left: 2.5rem;
+    color: var(--text-secondary);
+}
+
+.section-text li {
+    margin-bottom: 0.5rem;
+}
+
 .date {
     display: block;
     font-size: 0.8rem;
