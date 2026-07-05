@@ -229,13 +229,13 @@ body {
 
 .card-content > a,
 .card.list-item > a {
-    color: #ffffff !important;
+    color: #38bdf8 !important;
     text-decoration: none !important;
 }
 
 .card-content > a:visited,
 .card.list-item > a:visited {
-    color: #ffffff !important;
+    color: #38bdf8 !important;
 }
 
 .card-content > a:hover,
@@ -264,6 +264,7 @@ body {
 
 .section-text p a:hover {
     color: #38bdf8 !important;
+    text-decoration: underline;
 }
 
 .section-text ul {
