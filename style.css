@@ -229,6 +229,7 @@ body {
 .card h3 {
     margin-bottom: 0;
     font-size: 1.1rem;
+    font-weight: 600;
 }
 
 .card-content > a,
@@ -298,6 +299,7 @@ body {
 
 .timeline-item p {
     color: var(--text-secondary);
+    font-size: 0.95rem;
 }
 
 .timeline-item::before {
