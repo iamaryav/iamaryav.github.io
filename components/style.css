@@ -382,3 +382,82 @@ footer {
         grid-template-columns: repeat(2, 1fr);
     }
 }
+
+/* Blogs page */
+#blogs-page .section-title {
+    text-align: center;
+}
+
+#blogs-page .section-text {
+    text-align: center;
+}
+
+#blogs-page .section-text ul {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+    display: inline-block;
+    text-align: left;
+}
+
+#blogs-page .section-text li p {
+    display: flex;
+    margin: 0 0 0.5rem 0;
+}
+
+#blogs-page .date {
+    width: 9.5rem;
+    flex-shrink: 0;
+    white-space: nowrap;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+#blogs-page .section-text p {
+    font-size: 1rem;
+    color: var(--text-primary);
+}
+
+#blogs-page footer {
+    margin-top: 1.5rem;
+}
+
+/* Books page */
+#books-page .section-title {
+    text-align: center;
+}
+
+#books-page .section-text {
+    text-align: center;
+}
+
+#books-page .section-text ul {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+    display: inline-block;
+    text-align: left;
+}
+
+#books-page .section-text li p {
+    margin: 0 0 0.5rem 0;
+}
+
+#books-page .section-text .reading {
+    filter: hue-rotate(195deg) saturate(5);
+}
+
+#books-page .section-text li.read p {
+    color: #808080;
+}
+
+#books-page .section-text li.shelf p,
+#books-page .section-text li.reading p {
+    color: #e8e8e8;
+}
+
+#books-page footer {
+    margin-top: 1.5rem;
+}

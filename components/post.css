@@ -1,0 +1,149 @@
+/* Blog post pages */
+.post-page {
+    max-width: 720px;
+}
+
+.post-nav {
+    margin-bottom: 2rem;
+}
+
+.post-nav a {
+    color: #38bdf8;
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+
+.post-nav a:hover {
+    text-decoration: underline;
+}
+
+.post h1 {
+    font-size: 2rem;
+    font-weight: 800;
+    line-height: 1.25;
+    margin-bottom: 0.25rem;
+}
+
+.post .post-date {
+    display: block;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+}
+
+.post img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+    display: block;
+    margin: 1.5rem 0;
+}
+
+.post h3 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.post h4 {
+    font-size: 1.15rem;
+    font-weight: 600;
+    margin-top: 1.5rem;
+    margin-bottom: 0.75rem;
+}
+
+.post p {
+    margin-bottom: 1rem;
+}
+
+.post ul,
+.post ol {
+    padding-left: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.post li {
+    margin-bottom: 0.5rem;
+}
+
+.post a {
+    color: #38bdf8;
+}
+
+.post a:hover {
+    text-decoration: underline;
+}
+
+.post hr {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 2rem 0;
+}
+
+.post pre {
+    background: #111;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 1rem;
+    overflow-x: auto;
+    margin: 1.25rem 0;
+}
+
+.post code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    font-size: 0.88rem;
+    line-height: 1.5;
+}
+
+.post pre code {
+    background: none;
+    padding: 0;
+    border: none;
+    color: var(--text-primary);
+}
+
+.post blockquote {
+    border-left: 3px solid #38bdf8;
+    padding-left: 1rem;
+    margin: 1.25rem 0;
+    color: var(--text-secondary);
+}
+
+/* MathML */
+math[display="block"] {
+    display: block;
+    width: max-content;
+    max-width: 100%;
+    margin: 1.25rem auto;
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+
+/* Tables (e.g. AdamW parameters) */
+.post table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.25rem 0;
+    font-size: 0.9rem;
+}
+
+.post table th,
+.post table td {
+    border: 1px solid var(--border);
+    padding: 0.5rem 0.75rem;
+    text-align: left;
+    vertical-align: top;
+}
+
+.post table th {
+    background: #111;
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+.post table td {
+    color: var(--text-secondary);
+}

@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Attention</title>
+    <meta name="description" content="Detailed explanation about attention mechanism used in transformer architecture.">
+    <link rel="icon" type="image/jpeg" href="../../assets/new_me.jpg">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../post.css">
+</head>
+<body>
+    <main class="container post-page">
+        <nav class="post-nav">
+            <a href="../blogs.html">&larr; Back to blogs</a>
+        </nav>
+        <article class="post">
+            <h1>The Attention</h1>
+            <span class="post-date">23 Nov, 2025</span>
+
+            <p>If you understand attention, you understand transformers. This blog explains the attention mechanism used in modern LLMs. Attention is the core reason transformer-based models like ChatGPT, Gemini, Claude, and Grok work so well. It helps models learn patterns by focusing on the most relevant parts of the input.</p>
+
+            <h4>Simple Transformer Architecture Diagram</h4>
+            <img src="https://raw.githubusercontent.com/iamaryav/posts/f5d4c51061cba19a5926251328a043fb1fc30ae9/blogs/images/transformer_architecture_diagram.png" alt="transformer architecture diagram">
+
+            <h3>What is attention?</h3>
+            <p>Attention tells the model where to look. Instead of treating all words equally, it highlights what actually matters for the current prediction. This idea was introduced in Attention Is All You Need <a href="https://arxiv.org/abs/1706.03762">(Vaswani et al., 2017)</a>.</p>
+            <p>Attention is not limited to text, the same idea generalizes across audio, images, and video.</p>
+
+            <h3>Why attention?</h3>
+            <p>Before attention, models like RNNs were slow, sequential, and forgot long-range context. With attention, everything becomes parallel, and the model gets superpowers.</p>
+            <p>e.g.,<br>
+            The pilot flies the airplane.<br>
+            The model learns that pilot -&gt; flies -&gt; airplane are strongly connected.</p>
+
+            <h4>Scaled Dot-Product Attention block</h4>
+            <img src="https://raw.githubusercontent.com/iamaryav/posts/f5d4c51061cba19a5926251328a043fb1fc30ae9/blogs/images/scaled_dot_product_attention.png" alt="scaled dot product attention">
+
+            <h4>Scaled Dot-Product Attention Formula</h4>
+            <p>This is the entire mechanism in one equation.</p>
+            <math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mrow><mtext>Attention</mtext><mo stretchy="false">&#x00028;</mo><mi>Q</mi><mo>&#x0002C;</mo><mi>K</mi><mo>&#x0002C;</mo><mi>V</mi><mo stretchy="false">&#x00029;</mo><mo>&#x0003D;</mo><mtext>softmax</mtext><mrow><mo stretchy="true" fence="true" form="prefix">&#x00028;</mo><mfrac><mrow><mi>Q</mi><msup><mi>K</mi><mi>T</mi></msup></mrow><mrow><msqrt><mrow><msub><mi>d</mi><mi>k</mi></msub></mrow></msqrt></mrow></mfrac><mo stretchy="true" fence="true" form="postfix">&#x00029;</mo></mrow><mi>V</mi></mrow></math>
+            <p>Where Q - Query, K - Key, V - Value</p>
+
+            <hr>
+
+            <h3>Example</h3>
+            <p>Attention is a way for every token to look at all other tokens and decide which ones matter most.</p>
+            <p>Let&rsquo;s walk through the attention formula with an example step by step. Please refer to the source code <a href="https://github.com/iamaryav/models/blob/main/blogs/attention.ipynb">here</a>.</p>
+            <p>We first tokenize the text.</p>
+            <p>This given sentence is an example text.<br>
+            2500, 4335, 21872, 382, 448, 4994, 2201, 13</p>
+            <p>This sentence has 8 tokens. For simplicity, we can reshape it to a tensor of shape (B=2, T=4, C=2). This conversion is needed so the model can learn patterns and assign meaning to each token.</p>
+            <ul>
+                <li>batch (B) - number of independent samples.</li>
+                <li>seq_len (T) - number of tokens.</li>
+                <li>hidden_dim (C) - feature representing each token.</li>
+            </ul>
+            <p>We can read above as two input samples, each sample has 4 tokens, and each token is described by a feature vector of size 2.</p>
+            <p>After encoding, we get a feature vector from the embedding table. The embedding table stores a vector for each token ID. So, at the start, we assign each token a hidden vector of some defined size (hidden_dim/C) that contains meaning about the tokens, in other words, information. In this case, let&rsquo;s say we are using a hidden dim of size 2 to store information about each token for the sake of simplicity, now the dimension will become (2, 4, 2). These dimensions have names - (batch, seq_len, hidden_dim) or (B, T, C).</p>
+            <p>Example feature vectors of the first four tokens (random values)</p>
+            <pre><code>2500  -> [ 1.9269,  1.4873],
+4335  -> [ 0.9007, -2.1055],
+21872 -> [ 0.6784, -1.2345],
+382   -> [-0.0431, -1.6047],</code></pre>
+            <p>Once we have tokens and their feature vectors, we project these using linear layers to produce Q, K, and V.</p>
+            <pre><code>C = hidden_dim
+query = nn.Linear(C, C)
+key = nn.Linear(C, C)
+value = nn.Linear(C, C)
+# the size of weight matrix present in each vector is CxC
+
+# dim of Q, K, & V ->  (B, T, C)
+Q = query(x)
+K = key(x)
+V = value(x)
+print(Q[0])
+
+# first four tokens output of Q
+# [ 0.8800, -0.4509], <-- query for 1st token
+# [-0.0549, -0.7598], <-- query for 2nd token
+# [-0.0850, -0.5294], <-- query for 3rd token
+# [-0.5170, -0.3579]  <-- query for 4th token
+# same goes for K & V also</code></pre>
+            <p>This creates three vectors for every token (Q, K, V). These same linear layers are applied across all tokens (shared weights). Once we multiply the input token by these and get unique Q, K, and V for those input tokens.</p>
+            <p>What it means for a particular token</p>
+            <ul>
+                <li>Query (Q) - what this token is looking for (what I want).</li>
+                <li>Key (K) - how each token presents itself (what tokens offer).</li>
+                <li>Value (V) - the information that token carries (information they carry).</li>
+            </ul>
+            <p>Now we compute the dot product between queries and keys by transposing the key across the token dim(1, 2).</p>
+            <pre><code># (B, T, C) @ (B, C, T) -> (B, T, T)
+attention_scores = (Q @ K.transpose(1, 2)) 
+print(attention_scores[0])
+
+# output
+# [ 0.8466, -1.1636, -0.6758, -0.8822],
+# [ 1.5116,  0.2629,  0.3584, -0.0411],
+# [ 1.0558,  0.2508,  0.2953,  0.0153],
+# [ 0.7393,  0.8340,  0.6470,  0.4423]</code></pre>
+            <p>We multiply all the token&rsquo;s queries by all the token&rsquo;s keys, and this returns a matrix of attention scores. These scores show how much a token shows affinity towards other tokens. Here, each row is a token&rsquo;s details, and each position in a row corresponds to that token&rsquo;s likeness to other tokens. A higher value dot product indicates more focus on this token, lower means less.</p>
+            <p>e.g., attention_scores[1][2] = 0.3584 shows how much the second token likes the third token.</p>
+            <p>Once the attention scores are calculated, we normalize these scores. We do this step because large dot products push softmax into saturation and kills gradient flow (softmax saturates), which leads to unstable training. To counteract, we apply 1 / sqrt(d_k).</p>
+            <pre><code>attention_scores = attention_scores * (K.shape[-1] ** -0.5)
+print(attention_scores[0])
+
+# normalized attention scores output
+# [ 0.5986, -0.8228, -0.4778, -0.6238],
+# [ 1.0688,  0.1859,  0.2534, -0.0291],
+# [ 0.7466,  0.1773,  0.2088,  0.0109],
+# [ 0.5228,  0.5897,  0.4575,  0.3128]</code></pre>
+            <p>To make the model predict the next token without cheating, we block future information using a mask. This type of model is called an autoregressive model.</p>
+            <pre><code>tril = torch.tril(torch.ones(T, T))
+attention_scores = attention_scores.masked_fill(tril == 0, float("-inf"))
+print(attention_scores[0])
+
+# output after applying the mask
+# [ 0.5986,    -inf,    -inf,    -inf], <-- 1st token can only attend to itself
+# [ 1.0688,  0.1859,    -inf,    -inf],
+# [ 0.7466,  0.1773,  0.2088,    -inf], <-- 3rd token can attend to tokens 1-3
+# [ 0.5228,  0.5897,  0.4575,  0.3128]</code></pre>
+            <p>Each row represents a token, and the first token only attends till 1, the second token first and second, and so on... Future tokens are marked as &ldquo;-inf,&rdquo; because of that the current token won&rsquo;t be able to take any information, and while predicting the next token, it won&rsquo;t consider the future tokens.</p>
+
+            <h4>Softmax</h4>
+            <math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mrow><mi>s</mi><mi>o</mi><mi>f</mi><mi>t</mi><mi>m</mi><mi>a</mi><mi>x</mi><mo stretchy="false">&#x00028;</mo><msub><mi>x</mi><mi>i</mi></msub><mo stretchy="false">&#x00029;</mo><mo>&#x0003D;</mo><mfrac><mrow><msup><mi>e</mi><mrow><msub><mi>x</mi><mi>i</mi></msub></mrow></msup></mrow><mrow><msub><mo>&#x02211;</mo><mi>j</mi></msub><msup><mi>e</mi><mrow><msub><mi>x</mi><mi>j</mi></msub></mrow></msup></mrow></mfrac></mrow></math>
+            <p>Now we will apply softmax to calculate the weighted probability distribution.</p>
+            <pre><code>atten_wei = F.softmax(attention_scores, dim=-1) 
+print(atten_wei[0])
+
+# output after applying softmax to attention scores
+# [1.0000, 0.0000, 0.0000, 0.0000]
+# [0.7074, 0.2926, 0.0000, 0.0000]
+# [0.4651, 0.2632, 0.2716, 0.0000] <-- probability distribution for 3rd token
+# [0.2620, 0.2802, 0.2455, 0.2124]</code></pre>
+            <p>The third row tells us how the 3rd token divides its attention across past tokens.<br>
+            Softmax converts attention scores to a weighted probability distribution that sums up to 1. We use Softmax, which gives us probabilities that either we can utilize to predict the next token or multiply with V to save the contribution in proportion. How much information the current token pulls from others that is in the past or future.</p>
+            <p>These are important features of softmax.</p>
+            <ul>
+                <li>Always positive + sums to 1 -&gt; valid probabilities.</li>
+                <li>Exponentially emphasizes larger scores -&gt; helps focus attention.</li>
+                <li>Smooth and differentiable -&gt; perfect for gradient-based training.</li>
+                <li>Attention can spread to all tokens, but softmax and masking often push many weights close to zero.</li>
+                <li>Higher probability to higher magnitude and lower to lower.</li>
+            </ul>
+            <p>A table explaining attention scores of third token with softmax probability and how much they will impact value (V).</p>
+            <ul>
+                <li><strong>Token 1</strong> - Attention Score: 0.7466, softmax probability: 0.465, meaning: highest &rarr; token 3 finds token 1 <em>most relevant</em></li>
+                <li><strong>Token 2</strong> - Attention Score: 0.1773, softmax probability: 0.263, meaning: lowest &rarr; token 3 finds token 2 <em>less relevant</em></li>
+                <li><strong>Token 3 (itself)</strong> - Attention Score: 0.2088, softmax probability: 0.271, meaning: moderately relevant &rarr; some self-attention</li>
+                <li><strong>Token 4</strong> - Attention Score: -inf, softmax probability: 0.000, meaning: masked &rarr; future token, ignored</li>
+            </ul>
+            <p>Now we will apply the weighted sum by doing the dot product between atten_wei and value.</p>
+            <pre><code># (B, T, T) @ (B, T, C) -> (B, T, C)
+out = atten_wei @ V
+print(out[0])
+
+# output after weighted sum
+[-0.3642,  0.4548]
+[ 0.3499,  0.8945]
+[ 0.7720,  1.0779]
+[ 1.1964,  1.2087]</code></pre>
+            <p>The example below shows the weighted sum for the 3rd token&rsquo;s first feature vector in value (V). Since this is the 3rd token, the weight of the fourth is zero, and it won&rsquo;t contribute to the weighted sum for that token.</p>
+            <pre><code># 3rd row
+print(atten_wei[0,2:3,:]) 
+#[[0.4651, 0.2632, 0.2716, 0.0000]]
+
+# first column of v
+print(V[0,:,:1])
+# Output
+# [[-0.3642],
+# [ 2.0765],
+# [ 1.4534],
+# [ 1.6637]]
+
+# weighted sum for 3rd token's first feature
+print(atten_wei[0,2:3,:] @ V[0,:,:1])
+#[[0.7720]]</code></pre>
+            <p>In this scenario, the 4th token has zero contribution because their atten_wei is zero, only the first three tokens have weights. In value, higher probability tokens will contribute more since probability is higher.</p>
+            <p>Value (V) stores the information that will be mixed based on attention weights. It&rsquo;s storing relevant information for the tokens. Once we calculate the probability of tokens, we do the dot products with value (V) and get the weighted sum. This dot product ensures that high probability will have the higher contribution and low will have lower.</p>
+            <p>The &ldquo;out&rdquo; from attention is fed into feedforward layers, and finally used to predict the next token.</p>
+            <p>This concludes the attention mechanism calculation that happens inside the transformer block.</p>
+
+            <hr>
+
+            <h3>Final Thoughts</h3>
+            <p>This is what happens in the attention block.<br>
+            It takes tokens and their features as an input, passes them through the query, key, and value weight matrix, and then, by using the attention formula, calculates the attention scores and then, by applying softmax, calculates the attention weights, and that helps the model to predict the next token.</p>
+            <p>Attention is the router of information. Q asks, K answers, and V carries meaning. The model mixes all these pieces to form a richer understanding of each token, and that understanding becomes the next token prediction.</p>
+            <p>Few other ways to think about the attention mechanism</p>
+            <ul>
+                <li><strong>Weighted lookup</strong> Pick the most relevant info from all previous tokens. Ignore useless tokens and amplify important ones.</li>
+                <li><strong>Soft search engine</strong> Each query searches the sequence for what matters.</li>
+                <li><strong>Dynamic routing</strong> Information flows differently for every token.</li>
+                <li><strong>Content-based addressing</strong> Access memory by meaning, not position.</li>
+            </ul>
+            <p>e.g.,</p>
+            <ul>
+                <li>Connect related words (who is &ldquo;he&rdquo; referring to?)</li>
+                <li>Pick the right sense of a word (&ldquo;bank&rdquo; = money or river)</li>
+            </ul>
+            <p>Basically, attention helps the model focus, remember, and understand better. A neural network learns the patterns in data, and attention improves how well it learns them by directing where to look.</p>
+            <p>The goal of this blog was to explain how this mechanism works under the hood and develop intuition about it. I wanted to cover the evolution of the attention mechanism also, but then the length of this blog would have been very long, and I wanted to keep this blog short. In Future blogs will cover those topics as well. Use this <a href="https://x.com/PriyaAryav/status/1992538460796997907">X post</a> for any comments.</p>
+            <p>See you in the next blog, and thank you for reading!</p>
+
+            <hr>
+
+            <h3>Support me here :)</h3>
+            <ul>
+                <li>Follow me on <a href="https://x.com/PriyaAryav">X</a></li>
+                <li><a href="https://github.com/iamaryav">GitHub</a></li>
+                <li><a href="https://coff.ee/aryav">Buy me a coffee.</a></li>
+            </ul>
+
+            <h3>References</h3>
+            <ul>
+                <li>Attention is all you need <a href="https://arxiv.org/abs/1706.03762">(Vaswani et al., 2017)</a></li>
+                <li><a href="https://www.youtube.com/watch?v=kCc8FmEb1nY">Karpathy&rsquo;s GPT from scratch</a></li>
+            </ul>
+        </article>
+
+        <footer>
+            <p>&copy; 2026 Priya Aryav</p>
+        </footer>
+    </main>
+</body>
+</html>
