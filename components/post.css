@@ -112,14 +112,11 @@
     color: var(--text-secondary);
 }
 
-/* MathML */
-math[display="block"] {
-    display: block;
-    width: max-content;
-    max-width: 100%;
-    margin: 1.25rem auto;
-    overflow-x: auto;
-    overflow-y: hidden;
+/* MathML: block equations are centered natively by the browser's MathML
+   layout; only add vertical spacing. Do NOT set display/width on <math>,
+   that breaks the internal math layout. */
+.equation {
+    margin: 1.25rem 0;
 }
 
 /* Tables (e.g. AdamW parameters) */

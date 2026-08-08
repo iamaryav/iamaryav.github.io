@@ -38,7 +38,7 @@
 
             <h4>Scaled Dot-Product Attention Formula</h4>
             <p>This is the entire mechanism in one equation.</p>
-            <math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mrow><mtext>Attention</mtext><mo stretchy="false">&#x00028;</mo><mi>Q</mi><mo>&#x0002C;</mo><mi>K</mi><mo>&#x0002C;</mo><mi>V</mi><mo stretchy="false">&#x00029;</mo><mo>&#x0003D;</mo><mtext>softmax</mtext><mrow><mo stretchy="true" fence="true" form="prefix">&#x00028;</mo><mfrac><mrow><mi>Q</mi><msup><mi>K</mi><mi>T</mi></msup></mrow><mrow><msqrt><mrow><msub><mi>d</mi><mi>k</mi></msub></mrow></msqrt></mrow></mfrac><mo stretchy="true" fence="true" form="postfix">&#x00029;</mo></mrow><mi>V</mi></mrow></math>
+            <div class="equation"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mrow><mtext>Attention</mtext><mo stretchy="false">&#x00028;</mo><mi>Q</mi><mo>&#x0002C;</mo><mi>K</mi><mo>&#x0002C;</mo><mi>V</mi><mo stretchy="false">&#x00029;</mo><mo>&#x0003D;</mo><mtext>softmax</mtext><mrow><mo stretchy="true" fence="true" form="prefix">&#x00028;</mo><mfrac><mrow><mi>Q</mi><msup><mi>K</mi><mi>T</mi></msup></mrow><mrow><msqrt><mrow><msub><mi>d</mi><mi>k</mi></msub></mrow></msqrt></mrow></mfrac><mo stretchy="true" fence="true" form="postfix">&#x00029;</mo></mrow><mi>V</mi></mrow></math></div>
             <p>Where Q - Query, K - Key, V - Value</p>
 
             <hr>
@@ -122,7 +122,7 @@ print(attention_scores[0])
             <p>Each row represents a token, and the first token only attends till 1, the second token first and second, and so on... Future tokens are marked as &ldquo;-inf,&rdquo; because of that the current token won&rsquo;t be able to take any information, and while predicting the next token, it won&rsquo;t consider the future tokens.</p>
 
             <h4>Softmax</h4>
-            <math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mrow><mi>s</mi><mi>o</mi><mi>f</mi><mi>t</mi><mi>m</mi><mi>a</mi><mi>x</mi><mo stretchy="false">&#x00028;</mo><msub><mi>x</mi><mi>i</mi></msub><mo stretchy="false">&#x00029;</mo><mo>&#x0003D;</mo><mfrac><mrow><msup><mi>e</mi><mrow><msub><mi>x</mi><mi>i</mi></msub></mrow></msup></mrow><mrow><msub><mo>&#x02211;</mo><mi>j</mi></msub><msup><mi>e</mi><mrow><msub><mi>x</mi><mi>j</mi></msub></mrow></msup></mrow></mfrac></mrow></math>
+            <div class="equation"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mrow><mi>s</mi><mi>o</mi><mi>f</mi><mi>t</mi><mi>m</mi><mi>a</mi><mi>x</mi><mo stretchy="false">&#x00028;</mo><msub><mi>x</mi><mi>i</mi></msub><mo stretchy="false">&#x00029;</mo><mo>&#x0003D;</mo><mfrac><mrow><msup><mi>e</mi><mrow><msub><mi>x</mi><mi>i</mi></msub></mrow></msup></mrow><mrow><msub><mo>&#x02211;</mo><mi>j</mi></msub><msup><mi>e</mi><mrow><msub><mi>x</mi><mi>j</mi></msub></mrow></msup></mrow></mfrac></mrow></math></div>
             <p>Now we will apply softmax to calculate the weighted probability distribution.</p>
             <pre><code>atten_wei = F.softmax(attention_scores, dim=-1) 
 print(atten_wei[0])
