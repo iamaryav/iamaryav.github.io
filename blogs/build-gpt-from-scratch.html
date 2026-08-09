@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Build GPT from scratch</title>
     <meta name="description" content="Explained everything about how to Build GPT from scratch in PyTorch.">
-    <link rel="icon" type="image/jpeg" href="../../assets/new_me.jpg">
-    <link rel="stylesheet" href="../style.css">
-    <link rel="stylesheet" href="../post.css">
+    <link rel="icon" type="image/jpeg" href="../assets/new_me.jpg">
+    <link rel="stylesheet" href="../components/style.css">
+    <link rel="stylesheet" href="../components/post.css">
 </head>
 <body>
     <main class="container post-page">
@@ -181,7 +181,7 @@ class GPT(nn.Module):
 
         return logits, loss
 </code></pre>
-<p>The above code is the blueprint as well as the actual code that describes what the components present in the transformer block are. First we convert raw text to tokens to understand how tokenizers tokenize text. Check out my blog <a href='../blogs/tinybpe-a-tiny-byte-pair-encoder.html'>tinybpe</a>, which explains tokenizers in depth. Token is what we feed into this GPT forward method. idx is tokens shaped (B, T). If you want to visualize the data &architecture flow from input to output, check out these cool websites <a href='https://bbycroft.net/llm'>bbycropft</a> and <a href='https://poloclub.github.io/transformer-explainer/'>Transformer Explainer</a>. I would suggest keeping this open in a different tab for visual reference.</p>
+<p>The above code is the blueprint as well as the actual code that describes what the components present in the transformer block are. First we convert raw text to tokens to understand how tokenizers tokenize text. Check out my blog <a href='tinybpe-a-tiny-byte-pair-encoder.html'>tinybpe</a>, which explains tokenizers in depth. Token is what we feed into this GPT forward method. idx is tokens shaped (B, T). If you want to visualize the data &architecture flow from input to output, check out these cool websites <a href='https://bbycroft.net/llm'>bbycropft</a> and <a href='https://poloclub.github.io/transformer-explainer/'>Transformer Explainer</a>. I would suggest keeping this open in a different tab for visual reference.</p>
 <pre><code>def forward(self, idx, targets=None):
 </code></pre>
 <h4 id=token-embedding-table>Token Embedding Table</h4><p>Tokens are the representation of words/subwords in the integer form. Once input text gets converted into tokens (integers) through the tokenizer. We pass those tokens through the token embedding table to get the feature vector for each token. A feature vector is a list of float values that describes features of a token, kind of like a description of the token, e.g., [0.123, 0.124, -1.247] or something like this. This tinyGPT has a feature vector of size n_embd = 384. That means this model takes 384 different float values to describe a token. A different way to think is to consider that a feature vector is a position of a token in 384-dimensional space represented by 384 values. It's not possible in reality, but in the case of the model, it's possible.</p>
@@ -283,7 +283,7 @@ Why do we do it?</p>
 </code></pre>
 <h4 id=scaled-dot-product-attention>Scaled Dot Product Attention</h4><img src="https://raw.githubusercontent.com/iamaryav/posts/b4f8b40a6526d857493748a2d9f7d72afe27f6e6/blogs/images/scaled_dot_product_attention_1.png" alt="scaled dot product attention">
 <p>Now we will go through the single attention block and see what's going on inside.</p>
-<p>This is the main block of transformer architecture, in other words, this is where all the magic happens the attention block. I have a detailed blog explaining everything about the attention mechanism. <a href='../blogs/the-attention.html'>The Attention</a> if you want to dig deeper, I would recommend you to read this. Anyway, I will explain the block in brief here so we have the intuition of what is happening here.</p>
+<p>This is the main block of transformer architecture, in other words, this is where all the magic happens the attention block. I have a detailed blog explaining everything about the attention mechanism. <a href='the-attention.html'>The Attention</a> if you want to dig deeper, I would recommend you to read this. Anyway, I will explain the block in brief here so we have the intuition of what is happening here.</p>
 <p>What happens inside this block?<br />
 In simple words, self-attention enables model to look at the past tokens and derive meaning from them before making a next word prediction.<br />
 How? Let's walk it through.<br />
@@ -355,7 +355,7 @@ for iter in range(max_iters):
     loss.backward() # calculate the gradient
     optimizer.step() # and update the values of parameter
 </code></pre>
-<h4 id=char-level-tokenizer>Char Level Tokenizer</h4><p>The first thing in the training loop is that we need to get the data. For data, we're going to use the tiny Shakespeare dataset. This file contains works of Shakespeare in text format. We can't feed text directly, in order to train the model with this data, we need to convert these texts to tokens (integer values). So the model can process it and assign it some meaning. Since we have less data, we will use the character-level tokenizer for this, but the character-level tokenizer is not the actual tokenizer used in modern-day LLMs. If you want to understand how tokenizers are used today, check out my blog <a href='../blogs/tinybpe-a-tiny-byte-pair-encoder.html'>tinybpe</a>. In a single sentence, a tokenizer converts text to a token (integer value) so the model can process it.</p>
+<h4 id=char-level-tokenizer>Char Level Tokenizer</h4><p>The first thing in the training loop is that we need to get the data. For data, we're going to use the tiny Shakespeare dataset. This file contains works of Shakespeare in text format. We can't feed text directly, in order to train the model with this data, we need to convert these texts to tokens (integer values). So the model can process it and assign it some meaning. Since we have less data, we will use the character-level tokenizer for this, but the character-level tokenizer is not the actual tokenizer used in modern-day LLMs. If you want to understand how tokenizers are used today, check out my blog <a href='tinybpe-a-tiny-byte-pair-encoder.html'>tinybpe</a>. In a single sentence, a tokenizer converts text to a token (integer value) so the model can process it.</p>
 <p>In the code we read the <code>input.txt</code>, filtered out all the unique characters, and sorted them, and in the stoi dict we assigned the unique index to each character and in the itos dict vice versa. Then we have encode and decode, wherein in encode we are taking a string and converting that to a list of tokens, and in decode, vice versa.</p>
 <pre><code># read the file
 with open(&#39;.tinygpt/data/input.txt&#39;, r, encoding=&#39;utf-8&#39;) as f:
