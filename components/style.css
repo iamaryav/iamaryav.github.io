@@ -5,6 +5,7 @@
     --accent: #ffffff;
     --card-bg: #262626;
     --border: #404040;
+    --link: #38bdf8;
     --max-width: 800px;
 }
 
@@ -15,12 +16,8 @@
 }
 
 a {
-    color: inherit;
+    color: var(--link);
     text-decoration: none;
-}
-
-a:hover {
-    color: #38bdf8;
 }
 
 body {
@@ -84,7 +81,6 @@ body {
 }
 
 .social-links a {
-    color: #38bdf8;
     text-decoration: none;
     font-size: 0.95rem;
     font-weight: 600;
@@ -102,7 +98,6 @@ body {
 }
 
 .social-links a:hover {
-    color: #38bdf8;
     text-decoration: underline;
 }
 
@@ -130,7 +125,7 @@ body {
 }
 
 /* Cards & Lists */
-.pet-projects-list {
+.card-stack {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
@@ -179,7 +174,7 @@ body {
     border-radius: 4px;
 }
 
-.pet-projects-list .card.has-image {
+.card-stack .card.card-row {
     flex-direction: row;
     align-items: center;
 }
@@ -197,7 +192,6 @@ body {
     padding: 0.15rem 0.6rem;
     border: 1px solid #555;
     border-radius: 3px;
-    color: #38bdf8;
     font-size: 0.6875rem;
     font-weight: 500;
     line-height: 1.5;
@@ -205,11 +199,10 @@ body {
 }
 
 .card-badge:hover {
-    border-color: #38bdf8;
-    color: #38bdf8;
+    border-color: var(--link);
 }
 
-.pet-projects-list .card.has-image img {
+.card-stack .card.card-row img {
     width: 80px;
     height: 80px;
     object-fit: cover;
@@ -218,7 +211,7 @@ body {
     margin-right: 1rem;
 }
 
-.pet-projects-list .card-content {
+.card-stack .card-content {
     padding-left: 0.5rem;
 }
 
@@ -232,21 +225,9 @@ body {
     font-weight: 600;
 }
 
-.card-content > a,
-.card.list-item > a {
-    color: #38bdf8 !important;
-    text-decoration: none !important;
-}
-
-.card-content > a:visited,
-.card.list-item > a:visited {
-    color: #38bdf8 !important;
-}
-
 .card-content > a:hover,
 .card.list-item > a:hover {
-    color: #38bdf8 !important;
-    text-decoration: underline !important;
+    text-decoration: underline;
 }
 
 .card p {
@@ -259,12 +240,7 @@ body {
     margin-bottom: 1.5rem;
 }
 
-.section-text p a {
-    color: #38bdf8 !important;
-}
-
 .section-text p a:hover {
-    color: #38bdf8 !important;
     text-decoration: underline;
 }
 
