@@ -402,9 +402,35 @@ footer {
     }
 }
 
+/* Top-of-page nav (index pages) */
+.page-nav {
+    margin-bottom: 1.5rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+
+.page-nav a + a {
+    margin-left: 1.5rem;
+}
+
+.page-nav a:hover {
+    text-decoration: underline;
+}
+
+/* Shared centring block: nav and list resolve to the same left edge */
+.page-index {
+    display: inline-block;
+    text-align: left;
+}
+
 /* Blogs page */
 #blogs-page .section-title {
     text-align: center;
+    margin-bottom: 0.4rem;
+}
+
+#blogs-page .page-nav {
+    margin-bottom: 1rem;
 }
 
 #blogs-page .section-text {
@@ -415,8 +441,6 @@ footer {
     list-style: none;
     padding-left: 0;
     margin: 0;
-    display: inline-block;
-    text-align: left;
 }
 
 #blogs-page .section-text li p {
@@ -446,6 +470,11 @@ footer {
 /* Books page */
 #books-page .section-title {
     text-align: center;
+    margin-bottom: 0.4rem;
+}
+
+#books-page .page-nav {
+    margin-bottom: 1rem;
 }
 
 #books-page .section-text {
@@ -456,8 +485,6 @@ footer {
     list-style: none;
     padding-left: 0;
     margin: 0;
-    display: inline-block;
-    text-align: left;
 }
 
 #books-page .section-text li p {
