@@ -253,6 +253,10 @@ body {
     margin-bottom: 0.5rem;
 }
 
+.hindi-name {
+    color: #bdbdbd;
+}
+
 /* Date-aligned list (New/s) */
 .date-list {
     list-style: none;
