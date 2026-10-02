@@ -471,43 +471,53 @@ footer {
     margin-top: 1.5rem;
 }
 
-/* Books page */
-#books-page .section-title {
+/* Books and Music pages */
+#books-page .section-title,
+#music-page .section-title {
     text-align: center;
     margin-bottom: 0.4rem;
 }
 
-#books-page .page-nav {
+#books-page .page-nav,
+#music-page .page-nav {
     margin-bottom: 1rem;
 }
 
-#books-page .section-text {
+#books-page .section-text,
+#music-page .section-text {
     text-align: center;
 }
 
-#books-page .section-text ul {
+#books-page .section-text ul,
+#music-page .section-text ul {
     list-style: none;
     padding-left: 0;
     margin: 0;
 }
 
-#books-page .section-text li p {
+#books-page .section-text li p,
+#music-page .section-text li p {
     margin: 0 0 0.5rem 0;
 }
 
-#books-page .section-text .reading {
+#books-page .section-text .reading,
+#music-page .section-text .reading {
     filter: hue-rotate(195deg) saturate(5);
 }
 
-#books-page .section-text li.read p {
+#books-page .section-text li.read p,
+#music-page .section-text li.read p {
     color: #808080;
 }
 
 #books-page .section-text li.shelf p,
-#books-page .section-text li.reading p {
+#music-page .section-text li.shelf p,
+#books-page .section-text li.reading p,
+#music-page .section-text li.reading p {
     color: #e8e8e8;
 }
 
-#books-page footer {
+#books-page footer,
+#music-page footer {
     margin-top: 1.5rem;
 }
