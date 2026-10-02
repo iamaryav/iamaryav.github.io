@@ -2,8 +2,8 @@ import http.server
 import socketserver
 
 # Used to locally run the index html
-# url: localhost:8000
-PORT = 8000
+# url: localhost:8080
+PORT = 8080
 
 
 class Handler(http.server.SimpleHTTPRequestHandler):
